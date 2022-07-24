@@ -1,19 +1,20 @@
 @import url('https://webfontworld.github.io/goodchoice/Jalnan.css');
 
-.header {
+.footer {
   width: 100%;
-  position: fixed;
+  margin-top: 50px;
+  /* position: fixed; */
   /* background-color: #fff; */
   /* background-color: yellow; */
-  -webkit-box-shadow: 0 1px 0 0 rgb(0 0 0 / 10%);
-  box-shadow: 0 1px 0 0 rgb(0 0 0 / 10%);
+  /* -webkit-box-shadow: 0 1px 0 0 rgb(0 0 0 / 10%);
+  box-shadow: 0 1px 0 0 rgb(0 0 0 / 10%); */
+
   z-index: 1;
   height: 50px;
   font-size: 0.9rem;
   font-weight: 500;
   display: flex;
   justify-content: center;
-  background-color: white;
 }
 
 .container {
@@ -26,14 +27,24 @@
 
 .columnContainer {
   display: flex;
+  align-items: center;
 }
 
+.columnContainer a {
+  margin: 0 0.5rem;
+}
+
+.columnContainer a img {
+  width: 24px;
+  height: 24px;
+}
 .logo {
   font-family: 'Jalnan';
   /* width: 25%; */
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   display: flex;
   align-items: center;
+  padding-left: 1rem;
   margin-right: 1rem;
 }
 
@@ -99,7 +110,7 @@
   color: white;
 }
 
-@media screen and (max-width: 1000px) {
+/* @media screen and (max-width: 1000px) {
   .logo li {
     margin: 0 0.5rem;
   }
@@ -154,4 +165,4 @@
   .username {
     display: none;
   }
-}
+} */

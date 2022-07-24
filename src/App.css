@@ -1,4 +1,26 @@
 .App {
   text-align: center;
+  /* display: flex; */
+}
+
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
   display: flex;
+}
+
+li {
+  list-style: none;
+  padding-left: 0;
+}
+
+a {
+  color: black;
+  text-decoration: none;
 }
