@@ -1,6 +1,7 @@
 import styles from './Main.module.css';
 import React, { useState } from 'react';
 import Slider from 'react-slick';
+import { useNavigate } from 'react-router-dom';
 import { lists, stacks } from '../../data';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import 'slick-carousel/slick/slick.css';
@@ -9,16 +10,17 @@ import 'slick-carousel/slick/slick-theme.css';
 const env = process.env;
 env.PUBLIC_URL = env.PUBLIC_URL || '';
 
-const Main = () => {
-  var settings = {
-    arrows: true,
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4
-  };
+var settings = {
+  arrows: true,
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 4
+};
 
+const Main = () => {
+  let navigate = useNavigate();
   return (
     <div className={styles.main}>
       <div className={styles.banner}>
@@ -44,10 +46,16 @@ const Main = () => {
         <ul className={styles.lists}>
           {lists.map((it, index) => {
             return (
-              <li key={index} className={styles.list}>
+              <li
+                key={index}
+                className={styles.list}
+                onClick={() => {
+                  navigate('/post/' + it.postId);
+                }}
+              >
                 <div className={styles.leftBox}>
                   <span className={styles.stack}>{it.stack}</span>
-                  <span>{it.content}</span>
+                  <span>{it.title}</span>
                 </div>
                 <div className={styles.rightBox}>
                   <span>

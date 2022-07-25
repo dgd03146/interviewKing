@@ -1,0 +1,108 @@
+@import url('https://webfontworld.github.io/score/SCoreDream.css');
+
+.postPage {
+  padding: 2.5rem 0;
+  text-align: left;
+  /* min-height: 50rem; */
+}
+
+.post {
+  padding: 2rem;
+  border: 1px solid #ececec;
+  border-radius: 4px;
+}
+
+.postPage h1 {
+  font-size: 1.5rem;
+}
+
+.postPage h3 {
+  color: brown;
+  margin: 0;
+}
+
+.titleBox p {
+  color: gray;
+}
+
+.postInfo {
+  display: flex;
+  padding-top: 3rem;
+}
+
+.postInfo p {
+  display: flex;
+  margin-right: 1rem;
+}
+
+.postInfo svg {
+  margin-right: 0.5rem;
+}
+
+.commentBox {
+  width: 100%;
+  border: 1px solid #ececec;
+}
+
+.comments {
+  /* padding: 2rem; */
+}
+
+.comment {
+  padding: 2rem;
+  margin-bottom: 0.1rem;
+  border-bottom: 1px solid #ececec;
+}
+
+.commentTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentNickname {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.commentTime {
+  color: gray;
+}
+
+.commentArea {
+  border: none;
+  resize: none;
+  padding: 2rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  font-family: 'SCoreDream';
+  outline: none;
+}
+
+.buttonBox {
+  padding: 0.2rem 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttonBox button {
+  color: white;
+  background-color: brown;
+  padding: 0.5rem 1rem;
+  font-family: 'SCoreDream';
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.buttonBox button:hover {
+  background-color: rgb(133, 37, 37);
+}
+
+.backBtn {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  font-family: 'SCoreDream';
+  background: transparent;
+  border: 1px solid #ececec;
+}

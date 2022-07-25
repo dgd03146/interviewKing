@@ -14,7 +14,7 @@ const Header = () => {
         <div className={styles.columnContainer}>
           <ul className={styles.category}>
             <li>
-              <Link to={'/post'}>글쓰기</Link>
+              <Link to={'/postAdd'}>글쓰기</Link>
             </li>
           </ul>
           <div className={styles.userContainer}>
