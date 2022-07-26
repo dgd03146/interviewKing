@@ -4,8 +4,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const initialState = { isLoggedIn: false, user: {} };
 
 export const addUser = createAsyncThunk('user/addUser', async (user) => {
+  axios.defaults.withCredentials = true;
   console.log(user, 'user');
-  const response = await axios.post('http://localhost:8080/api/signup', user);
+
+  const response = await axios.post(
+    'http://15.164.221.163:8080/api/signup',
+    user
+  );
   console.log(response, 'response');
   return response.data;
 });

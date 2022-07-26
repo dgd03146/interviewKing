@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import styles from './Post.module.css';
 import { comments, lists } from '../../data';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
@@ -10,17 +10,27 @@ import { layoutActions } from '../../redux/layout-slice';
 const Post = () => {
   const { postId } = useParams();
 
-  const dispatch = useDispatch();
+  const { state } = useLocation();
+  console.log(state, 'isEdit state임');
 
-  // footer를 main page에서만 나타나게
+  let dispatch = useDispatch();
+  let navigate = useNavigate();
+
+  const posts = useSelector((state) => state.posts.posts);
+
+  const [targetPost, setTargetPost] = useState({});
+
   useEffect(() => {
-    dispatch(layoutActions.notisMained());
+    dispatch(layoutActions.notisMained()); // footer를 main page에서만 나타나게
   }, []);
 
-  // 나중에 useEffect에서 state로 바꿔줘야함
-  const targetPost = lists.find((it) => it.postId == postId);
+  useEffect(() => {
+    if (posts.length >= 1) {
+      const post = posts.find((it) => it.postId == postId);
 
-  let navigate = useNavigate();
+      setTargetPost(post);
+    }
+  }, [posts]);
 
   return (
     <div className={styles.postPage}>
@@ -34,14 +44,22 @@ const Post = () => {
           <p>{targetPost.content}</p>
         </div>
         <div className={styles.postInfo}>
-          <p>
-            <ThumbUpOffAltIcon />
-            {targetPost.likes}
-          </p>
-          <p>
-            <ChatBubbleOutlineIcon />
-            {'25'}
-          </p>
+          <div>
+            <p>
+              <ThumbUpOffAltIcon />
+              {targetPost.likes}
+            </p>
+            <p>
+              <ChatBubbleOutlineIcon />
+              {'25'}
+            </p>
+          </div>
+          {state && (
+            <div className={styles.btnBox}>
+              <button>수정</button>
+              <button>삭제</button>
+            </div>
+          )}
         </div>
       </div>
       <div className={styles.commentBox}>

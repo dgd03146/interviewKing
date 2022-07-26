@@ -60,11 +60,12 @@ const SignUp = () => {
     });
   };
 
-  const onSignUp = async () => {
+  const onSignUp = async (e) => {
+    e.preventDefault();
     const user = {
       loginId: id_ref.current.value,
-      password: username_ref.current.value,
-      username: pw_ref.current.value
+      pw: pw_ref.current.value,
+      username: username_ref.current.value
     };
 
     dispatch(addUser(user));
@@ -74,7 +75,7 @@ const SignUp = () => {
 
   return (
     <div className={styles.signUpPage}>
-      <form className={styles.signUp}>
+      <form className={styles.signUp} onSubmit={onSignUp}>
         <h1 className={styles.title}>
           <p>
             💼면접<span>킹</span>
@@ -100,11 +101,13 @@ const SignUp = () => {
               type="password"
               placeholder="비밀번호"
               ref={pw_ref}
+              autoComplete="off"
               name="password"
               onChange={onChange}
             />
             <input
               type="password"
+              autoComplete="off"
               placeholder="비밀번호 체크"
               ref={pwCheck_ref}
               name="passwordCheck"
@@ -113,12 +116,13 @@ const SignUp = () => {
           </div>
           <button
             className={`${styles.signUpBtn} ${!isEmpty && styles.disable}`}
-            onClick={onSignUp}
+            type="submit"
             disabled={!isEmpty}
           >
             회원가입
           </button>
           <button
+            type="button"
             className={styles.loginBtn}
             onClick={() => {
               navigate('/login');

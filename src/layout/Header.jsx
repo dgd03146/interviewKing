@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
 
 const Header = () => {
@@ -7,9 +7,11 @@ const Header = () => {
     <div className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logo}>
-          <p>
-            💼면접<span>킹</span>
-          </p>
+          <Link to={'/main'}>
+            <p>
+              💼면접<span>킹</span>
+            </p>
+          </Link>
         </div>
         <div className={styles.columnContainer}>
           <ul className={styles.category}>
@@ -19,9 +21,11 @@ const Header = () => {
           </ul>
           <div className={styles.userContainer}>
             <div>
-              <p className={styles.username}>
-                유저네임이너무길<span>님</span>
-              </p>
+              <Link to={'/myPage'}>
+                <p className={styles.username}>
+                  유저네임이너무길<span>님</span>
+                </p>
+              </Link>
             </div>
             <div className={styles.logOut}>
               <Link to={'/login'}>로그아웃</Link>

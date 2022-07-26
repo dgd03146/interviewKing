@@ -12,7 +12,8 @@ const Login = () => {
   const id_ref = useRef(null);
   const pw_ref = useRef(null);
 
-  const onLogin = async () => {
+  const onLogin = async (e) => {
+    e.preventDefault();
     const user = {
       id: id_ref.current.value,
       pw: pw_ref.current.value
@@ -20,13 +21,13 @@ const Login = () => {
 
     console.log(user);
 
-    dispatch(postUser(user));
-    // navigate('/main');
+    // dispatch(postUser(user));
+    navigate('/main');
   };
 
   return (
     <div className={styles.loginPage}>
-      <form className={styles.login}>
+      <form className={styles.login} onSubmit={onLogin}>
         <h1 className={styles.title}>
           <p>
             💼면접<span>킹</span>
@@ -42,10 +43,11 @@ const Login = () => {
               ref={pw_ref}
             />
           </div>
-          <button className={styles.loginBtn} onClick={onLogin}>
+          <button className={styles.loginBtn} type="submit">
             로그인
           </button>
           <button
+            type="button"
             className={styles.signUpBtn}
             onClick={() => {
               navigate('/signUp');

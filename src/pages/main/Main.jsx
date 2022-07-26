@@ -27,6 +27,8 @@ const Main = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth.user);
+  const posts = useSelector((state) => state.posts.posts);
+  console.log(posts);
 
   console.log(user, 'user');
 
@@ -62,7 +64,7 @@ const Main = () => {
           </Slider>
         </div>
         <ul className={styles.lists}>
-          {lists.map((it, index) => {
+          {posts.map((it, index) => {
             return (
               <li
                 key={index}

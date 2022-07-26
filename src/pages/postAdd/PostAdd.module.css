@@ -108,3 +108,8 @@
   background: transparent;
   border: 1px solid #ececec;
 }
+
+.disable {
+  opacity: 0.8;
+  cursor: not-allowed;
+}

@@ -76,7 +76,23 @@
 }
 
 .userContainer div {
+  position: relative;
   margin-left: 2rem;
+}
+
+.userContainer div:after {
+  content: '';
+  position: absolute;
+  background-color: brown;
+  height: 3px;
+  width: 0%;
+  left: 0;
+  bottom: 3px;
+  transition: 0.3s;
+}
+
+.userContainer div:hover:after {
+  width: 100%;
 }
 
 .username {
@@ -87,17 +103,20 @@
 }
 
 .logOut {
-  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
   border-radius: 4px;
-  transition: 300ms;
+  transition: 500ms ease-in;
+  height: 100%;
 }
 
-.logOut:hover {
+/* .logOut:hover {
   background-color: brown;
 }
 .logOut:hover a {
   color: white;
-}
+} */
 
 @media screen and (max-width: 1000px) {
   .logo li {
