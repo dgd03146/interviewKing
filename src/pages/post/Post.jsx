@@ -15,7 +15,7 @@ const Post = () => {
   // footer를 main page에서만 나타나게
   useEffect(() => {
     dispatch(layoutActions.notisMained());
-  }, [dispatch]);
+  }, []);
 
   // 나중에 useEffect에서 state로 바꿔줘야함
   const targetPost = lists.find((it) => it.postId == postId);

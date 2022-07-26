@@ -16,16 +16,12 @@ function App() {
   const isMain = useSelector((state) => state.layout.isMain);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(layoutActions.isMained());
-  }, []);
-
   return (
     <div className="App">
       <Header />
       <Container>
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Login />} />
           <Route path="/main" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />

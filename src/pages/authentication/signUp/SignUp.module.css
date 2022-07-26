@@ -72,6 +72,15 @@
   cursor: pointer;
 }
 
+.signUpBtn .disable:hover {
+  background-color: rgb(194, 54, 54);
+}
+
+.disable {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
 .loginBtn {
   margin: 0.5rem;
   background-color: transparent;
@@ -81,14 +90,8 @@
   cursor: pointer;
 }
 
-.description {
-  font-size: 0.9rem;
-  color: gray;
-}
-
-.snsLogin img {
-  width: 2rem;
-  height: 2rem;
+.loginBtn span:hover {
+  color: black;
 }
 
 @media screen and (max-width: 600px) {

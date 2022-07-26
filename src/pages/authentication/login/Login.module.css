@@ -53,6 +53,9 @@
   color: white;
 }
 
+.loginBtn:hover {
+  background-color: rgb(194, 54, 54);
+}
 .inputBox input {
   border: none;
   margin: 0.3rem 0;
@@ -79,4 +82,8 @@
   font-size: 0.95rem;
   color: gray;
   cursor: pointer;
+}
+
+.signUpBtn span:hover {
+  color: black;
 }

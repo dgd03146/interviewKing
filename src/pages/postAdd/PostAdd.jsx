@@ -8,14 +8,13 @@ import { useNavigate } from 'react-router-dom';
 const PostAdd = () => {
   const [Selected, setSelected] = useState('');
 
-  const isMain = useSelector((state) => state.layout.isMain);
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
   // footer를 main page에서만 나타나게
   useEffect(() => {
     dispatch(layoutActions.notisMained());
-  }, [isMain, dispatch]);
+  }, []);
 
   const handleSelect = (e) => {
     setSelected(e.target.value);

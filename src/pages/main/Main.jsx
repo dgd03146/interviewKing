@@ -1,11 +1,14 @@
 import styles from './Main.module.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { layoutActions } from '../../redux/layout-slice';
 import { lists, stacks } from '../../data';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { getUser } from '../../redux/auth-slice';
 
 const env = process.env;
 env.PUBLIC_URL = env.PUBLIC_URL || '';
@@ -21,6 +24,21 @@ var settings = {
 
 const Main = () => {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.auth.user);
+
+  console.log(user, 'user');
+
+  useEffect(() => {
+    dispatch(layoutActions.isMained());
+  }, []);
+
+  // user 정보 가져오기
+  // useEffect(() => {
+  //   dispatch(getUser());
+  // }, []);
+
   return (
     <div className={styles.main}>
       <div className={styles.banner}>
