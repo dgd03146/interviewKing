@@ -15,13 +15,12 @@ const Login = () => {
   const onLogin = async (e) => {
     e.preventDefault();
     const user = {
-      id: id_ref.current.value,
+      loginId: id_ref.current.value,
       pw: pw_ref.current.value
     };
 
-    console.log(user);
-
-    // dispatch(postUser(user));
+    dispatch(postUser(user));
+    alert('로그인이 완료되었습니다.');
     navigate('/main');
   };
 

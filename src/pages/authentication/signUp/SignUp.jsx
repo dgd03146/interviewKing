@@ -3,6 +3,7 @@ import styles from './SignUp.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUser } from '../../../redux/auth-slice';
+import axios from 'axios';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -65,12 +66,23 @@ const SignUp = () => {
     const user = {
       loginId: id_ref.current.value,
       pw: pw_ref.current.value,
+      pwcheck: pwCheck_ref.current.value,
       username: username_ref.current.value
     };
 
-    dispatch(addUser(user));
+    console.log(user);
 
-    // navigate('/login');
+    try {
+      const response = await axios.post(
+        'http://15.164.221.163:8080/api/signup',
+        user
+      );
+      console.log(response, 'response');
+      alert('회원가입이 완료되었습니다.');
+      navigate('/login');
+    } catch (error) {
+      console.log(error.response);
+    }
   };
 
   return (

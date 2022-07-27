@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styles from './Header.module.css';
 
 const Header = () => {
+  const user = useSelector((state) => state.auth.user);
+
   return (
     <div className={styles.header}>
       <div className={styles.container}>
@@ -23,7 +26,8 @@ const Header = () => {
             <div>
               <Link to={'/myPage'}>
                 <p className={styles.username}>
-                  유저네임이너무길<span>님</span>
+                  {user.username}
+                  <span>님</span>
                 </p>
               </Link>
             </div>

@@ -6,12 +6,12 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { useSelector, useDispatch } from 'react-redux';
 import { layoutActions } from '../../redux/layout-slice';
+import axios from 'axios';
 
 const Post = () => {
   const { postId } = useParams();
 
   const { state } = useLocation();
-  console.log(state, 'isEdit state임');
 
   let dispatch = useDispatch();
   let navigate = useNavigate();
@@ -31,6 +31,22 @@ const Post = () => {
       setTargetPost(post);
     }
   }, [posts]);
+
+  const onDelete = async () => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      try {
+        const response = await axios.delete(
+          `http://15.164.221.163:8080/api/postId`
+        );
+        alert('삭제되었습니다.');
+      } catch (error) {
+        console.log(error.response);
+        alert('삭제를 실패하였습니다.');
+      }
+    } else {
+      alert('취소합니다.');
+    }
+  };
 
   return (
     <div className={styles.postPage}>
@@ -56,12 +72,19 @@ const Post = () => {
           </div>
           {state && (
             <div className={styles.btnBox}>
-              <button>수정</button>
-              <button>삭제</button>
+              <button
+                onClick={() => {
+                  navigate('/postAdd', { state: targetPost });
+                }}
+              >
+                수정
+              </button>
+              <button onClick={onDelete}>삭제</button>
             </div>
           )}
         </div>
       </div>
+      {/* comments */}
       <div className={styles.commentBox}>
         <div className={styles.comments}>
           {comments.map((it) => {

@@ -28,9 +28,6 @@ const Main = () => {
 
   const user = useSelector((state) => state.auth.user);
   const posts = useSelector((state) => state.posts.posts);
-  console.log(posts);
-
-  console.log(user, 'user');
 
   useEffect(() => {
     dispatch(layoutActions.isMained());

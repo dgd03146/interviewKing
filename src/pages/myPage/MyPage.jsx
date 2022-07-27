@@ -25,6 +25,7 @@ const MyPage = () => {
           게시물 <span>{'43'}</span>
         </p>
       </div>
+      {/* FIXME:lists가 아닌 myPosts */}
       <ul className={styles.lists}>
         {lists.map((it, index) => {
           return (

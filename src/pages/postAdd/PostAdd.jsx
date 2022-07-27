@@ -3,13 +3,19 @@ import styles from './PostAdd.module.css';
 import { newStacks } from '../../data';
 import { useSelector, useDispatch } from 'react-redux';
 import { layoutActions } from '../../redux/layout-slice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { postsActions } from '../../redux/posts-slice';
 import axios from 'axios';
 
 const PostAdd = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { state } = useLocation(); // 기존의 post
+
+  // const postId = state.postId
+
+  const [isEdit, setIsEdit] = useState(false);
 
   const [isEmpty, setIsEmpty] = useState(false); // input 비워있으면 등록 버튼 x
 
@@ -27,19 +33,27 @@ const PostAdd = () => {
 
   const { title, content, stack, companyname } = isInputValue;
 
+  // FIXME:useEffect 로직을 하나의 useEffect에서만 작성해도 되지 않을까?
   // footer를 main page에서만 나타나게
   useEffect(() => {
     dispatch(layoutActions.notisMained());
   }, []);
 
   useEffect(() => {
+    if (state) {
+      setIsInputValue(state);
+      setIsEdit(true);
+    }
+  }, []);
+
+  useEffect(() => {
     // 게시물 유효성 체크
-    if (title !== '' && content !== '' && stack !== '' && companyname !== '') {
+    if (title !== '' && content !== '' && stack !== '') {
       setIsEmpty(true);
     } else {
       setIsEmpty(false);
     }
-  }, [title, content, stack, companyname]);
+  }, [title, content, stack]);
 
   const onChange = (e) => {
     setIsInputValue({
@@ -66,16 +80,35 @@ const PostAdd = () => {
       content: content,
       stack: stack,
       date: date,
-      views: 0,
       companyname: companyname
     };
 
-    // axios 에러 처리 // mock api
-    const response = await axios
-      .post('http://localhost:5001/posts', post)
-      .catch((error) => {
+    // TODO:게시글 수정할때 등록. postId를 받아와야함.
+    if (isEdit) {
+      try {
+        const response = await axios.post(
+          `http://15.164.221.163:8080/api/postId`,
+          post
+        );
+        alert('게시글이 수정되었습니다.'); // FIXME: 모달로 구현?
+        navigate('/main');
+      } catch (error) {
         console.log(error.response);
-      });
+      }
+      return;
+    }
+
+    // 게시글 등록
+    try {
+      const response = await axios.post(
+        'http://15.164.221.163:8080/api/post',
+        post
+      );
+      alert('게시글이 작성되었습니다.'); // FIXME:모달로 구현?
+      navigate('/main');
+    } catch (error) {
+      console.log(error.response);
+    }
   };
 
   return (
@@ -90,6 +123,7 @@ const PostAdd = () => {
                 type="text"
                 name="companyname"
                 onChange={onChange}
+                value={isInputValue.companyname}
               />
             </div>
           </div>
@@ -97,12 +131,7 @@ const PostAdd = () => {
             언어 선택 <span>(1개)</span>
           </p>
           <div className={styles.stack}>
-            <select
-              name="stack"
-              id=""
-              onChange={onChange}
-              value={isInputValue.stack}
-            >
+            <select name="stack" onChange={onChange} value={isInputValue.stack}>
               {newStacks.map((it, index) => (
                 <option value={it} key={index}>
                   {it}
@@ -119,6 +148,7 @@ const PostAdd = () => {
               placeholder="제목을 입력해주세요"
               name="title"
               onChange={onChange}
+              value={isInputValue.title}
             />
           </div>
         </div>
@@ -129,6 +159,7 @@ const PostAdd = () => {
             cols="30"
             rows="12"
             onChange={onChange}
+            value={isInputValue.content}
           />
           <div className={styles.buttonBox}>
             <button
