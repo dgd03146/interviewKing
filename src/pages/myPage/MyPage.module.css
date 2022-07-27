@@ -1,0 +1,92 @@
+@import url('https://webfontworld.github.io/goodchoice/Jalnan.css');
+
+.myPage {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  border: 1px solid #ececec;
+  text-align: left;
+}
+
+.profileBox h1 {
+  color: black;
+  font-family: 'Jalnan';
+}
+
+.profileBox p span {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.lists {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  margin-bottom: 0;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  /* border: 1px solid black; */
+  padding: 1rem;
+}
+
+.list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  padding: 1rem 0;
+  cursor: pointer;
+}
+
+.stack {
+  font-size: 0.8rem;
+  color: gray;
+  margin-right: 2rem;
+}
+
+.rightBox {
+  display: flex;
+}
+
+.rightBox span {
+  display: flex;
+  align-items: center;
+  color: gray;
+  margin-right: 1rem;
+}
+
+.rightBox span svg {
+  font-size: 1.2rem;
+  color: gray;
+}
+
+.moreBtn {
+  background-color: transparent;
+  border: none;
+  padding: 1rem 0;
+  width: 100%;
+  font-size: 1rem;
+  font-family: 'SCoreDream';
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+@media screen and (max-width: 1330px) {
+  .lists {
+    display: flex;
+    flex-direction: column;
+  }
+  .list {
+    align-items: center;
+    flex-direction: column;
+    justify-content: none;
+  }
+  .leftBox {
+    display: flex;
+    flex-direction: column;
+  }
+  .leftBox span {
+    text-align: left;
+  }
+  .stack {
+    margin-right: 0;
+  }
+}

@@ -25,8 +25,14 @@
   color: gray;
 }
 
+.postInfo > div {
+  display: flex;
+}
+
 .postInfo {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-top: 3rem;
 }
 
@@ -37,6 +43,19 @@
 
 .postInfo svg {
   margin-right: 0.5rem;
+}
+
+.btnBox button {
+  margin: 0 0.5rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  background-color: brown;
+  color: white;
+  font-family: 'SCoreDream';
+}
+
+.btnBox button:hover {
+  background-color: rgb(207, 73, 73);
 }
 
 .commentBox {
