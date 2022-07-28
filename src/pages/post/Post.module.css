@@ -22,7 +22,24 @@
 }
 
 .titleBox p {
-  color: gray;
+  /* color: gray; */
+  font-size: 0.9rem;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.companyname {
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #ececec;
+  color: black;
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  margin: 0.5rem 0.5rem;
 }
 
 .postInfo > div {
@@ -67,10 +84,44 @@
   /* padding: 2rem; */
 }
 
+.noComments {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem;
+  border-bottom: 1px solid #ececec;
+}
+
+.noComments svg {
+  color: #ececec;
+  font-size: 5rem;
+}
+
+.noComments p {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
 .comment {
   padding: 2rem;
   margin-bottom: 0.1rem;
   border-bottom: 1px solid #ececec;
+}
+
+.commentBtnBox {
+  margin-top: 1rem;
+}
+
+.commentBtnBox button {
+  padding: 0.5rem 1rem;
+  font-family: 'SCoreDream';
+  margin-right: 0.5rem;
+  border-radius: 4px;
+}
+.commentBtnBox button:hover {
+  background-color: rgb(202, 201, 201);
 }
 
 .commentTop {
@@ -124,4 +175,31 @@
   font-family: 'SCoreDream';
   background: transparent;
   border: 1px solid #ececec;
+}
+
+@media screen and (max-width: 700px) {
+  .info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .companyname {
+    margin: 0.5rem 0;
+  }
+  .postInfo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .btnBox {
+    width: 100%;
+    justify-content: center;
+  }
+
+  @media screen and (max-width: 500px) {
+    .btnBox {
+      flex-direction: column;
+    }
+    .btnBox button {
+      margin-top: 0.5rem;
+    }
+  }
 }

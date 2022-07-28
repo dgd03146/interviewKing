@@ -11,9 +11,8 @@ const PostAdd = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { state } = useLocation(); // 기존의 post
-
-  // const postId = state.postId
+  const { state } = useLocation(); // detailPost를 naivgation으로 전달받음
+  const postId = state.postId;
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -41,6 +40,7 @@ const PostAdd = () => {
 
   useEffect(() => {
     if (state) {
+      // 기존의 post가 있다면
       setIsInputValue(state);
       setIsEdit(true);
     }
@@ -86,8 +86,8 @@ const PostAdd = () => {
     // TODO:게시글 수정할때 등록. postId를 받아와야함.
     if (isEdit) {
       try {
-        const response = await axios.post(
-          `http://15.164.221.163:8080/api/postId`,
+        const response = await axios.put(
+          `http://15.164.221.163:8080/api/${postId}`,
           post
         );
         alert('게시글이 수정되었습니다.'); // FIXME: 모달로 구현?
@@ -98,7 +98,7 @@ const PostAdd = () => {
       return;
     }
 
-    // 게시글 등록
+    // 게시글 작성
     try {
       const response = await axios.post(
         'http://15.164.221.163:8080/api/post',

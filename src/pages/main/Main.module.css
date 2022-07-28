@@ -69,7 +69,8 @@
 .stack {
   font-size: 0.8rem;
   color: gray;
-  margin-right: 2rem;
+  font-weight: 600;
+  margin-right: 1rem;
 }
 
 .rightBox {

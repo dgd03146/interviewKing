@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import styles from './Header.module.css';
 
 const Header = () => {
-  const user = useSelector((state) => state.auth.user);
+  const username = useSelector((state) => state.auth.user.username);
 
   return (
     <div className={styles.header}>
@@ -26,7 +26,7 @@ const Header = () => {
             <div>
               <Link to={'/myPage'}>
                 <p className={styles.username}>
-                  {user.username}
+                  {username}
                   <span>님</span>
                 </p>
               </Link>

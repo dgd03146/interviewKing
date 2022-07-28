@@ -19,8 +19,8 @@ const Login = () => {
       pw: pw_ref.current.value
     };
 
-    dispatch(postUser(user));
-    alert('로그인이 완료되었습니다.');
+    // FIXME: dispatch(postUser(user));
+
     navigate('/main');
   };
 

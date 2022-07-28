@@ -1,16 +1,20 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { authApi } from '../shared/api';
 
-const initialState = { isLoggedIn: false, user: {} };
+const initialState = {
+  isLoggedIn: false,
+  user: {
+    loginId: 'test111',
+    username: '사용자이름'
+  }
+};
 
 export const postUser = createAsyncThunk('user/postUser', async (user) => {
-  console.log(user);
   try {
-    const response = await axios.post(
-      'http://15.164.221.163:8080/api/login',
-      user
-    );
+    const response = await authApi.login(user);
     console.log(response.data, 'response.data');
+    alert('로그인이 완료되었습니다.');
     return response.data;
   } catch (error) {
     console.log(error.response);
