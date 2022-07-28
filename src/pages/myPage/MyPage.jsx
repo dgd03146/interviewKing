@@ -9,28 +9,29 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 const MyPage = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
+
   const isEdit = useSelector((state) => state.posts.isEdit);
+  const myPosts = useSelector((state) => state.posts.myPosts);
+  const username = useSelector((state) => state.auth.user.username);
 
   useEffect(() => {
-    dispatch(postsActions.isEdit());
+    dispatch(postsActions.isEdit()); // 수정 중으로 변경
   }, []);
-
-  // 자기 게시글인지 알아야 하니까? useEffect로 불러오기
 
   return (
     <div className={styles.myPage}>
       <div className={styles.profileBox}>
-        <h1>{'유저네임이너무길'}</h1>
+        <h1>{username}</h1>
         <p>
-          게시물 <span>{'43'}</span>
+          게시물 <span>{myPosts.length}</span>
         </p>
       </div>
       {/* FIXME:lists가 아닌 myPosts */}
       <ul className={styles.lists}>
-        {lists.map((it, index) => {
+        {myPosts.map((it) => {
           return (
             <li
-              key={index}
+              key={it.postId}
               className={styles.list}
               onClick={() => {
                 navigate('/post/' + it.postId, { state: isEdit });
@@ -41,10 +42,10 @@ const MyPage = () => {
                 <span>{it.title}</span>
               </div>
               <div className={styles.rightBox}>
-                <span>
+                {/* 좋아요 <span>
                   <ThumbUpOffAltIcon />
                   {it.likes}
-                </span>
+                </span> */}
                 {it.date}
               </div>
             </li>

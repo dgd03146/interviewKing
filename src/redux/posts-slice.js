@@ -1,25 +1,51 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { authApi, postApi } from '../shared/api';
 
-export const getAllPosts = createAsyncThunk('posts/getAllPosts', async () => {
+// 메인페이지 모든 게시물 받아오기
+export const getPostsMain = createAsyncThunk('posts/getPostsMain', async () => {
   try {
-    // 모든 게시물 받아오기
-    const response = await axios.get('http://15.164.221.163:8080/api/posts');
+    const response = await postApi.postsMain();
     return response.data;
   } catch (error) {
     console.log(error.response);
   }
 });
+// 카테고리별 게시물 받아오기
+export const getCategoryPosts = createAsyncThunk(
+  'posts/getCategoryPosts',
+  async (stack) => {
+    try {
+      const response = await postApi.categoryPosts(stack);
+      return response.data;
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+);
 
+// 본인 게시물 받아오기
 export const getMyPosts = createAsyncThunk('posts/getMyPosts', async () => {
   try {
-    // 모든 게시물 받아오기
-    const response = await axios.get('http://15.164.221.163:8080/api/mypage');
+    const response = await postApi.myPosts();
     return response.data;
   } catch (error) {
     console.log(error.response);
   }
 });
+
+// 상세 게시글 불러오기
+export const getDetailPost = createAsyncThunk(
+  'posts/getDetailPost',
+  async (postId) => {
+    try {
+      const response = await postApi.get(postId);
+      return response.data;
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+);
 
 const initialState = {
   posts: [
@@ -43,7 +69,7 @@ const initialState = {
     },
     {
       postId: 3,
-      stack: 'React',
+      stack: 'JavaScript',
       title: 'React의 개념과 장점, 그리고 컴포넌트란 무엇인가요?',
       likes: 1,
       companyname: 'samsung',
@@ -51,26 +77,76 @@ const initialState = {
     },
     {
       postId: 4,
-      stack: 'react',
+      stack: 'HTML',
       title: 'React의 개념과 장점, 그리고 컴포넌트란 무엇인가요?',
       likes: 1,
       companyname: 'samsung',
       date: '2022-07-25'
     }
   ],
-  myPosts: [],
-  isEdit: false
+  myPosts: [
+    {
+      postId: 1,
+      stack: 'React',
+      title: '이거 할게 너무 많아',
+      content: '너무 많은디?',
+      companyname: '삼성',
+      date: '2022-07-28 05:23'
+    },
+    {
+      postId: 2,
+      stack: 'Spring',
+      title: '이거 할게 너무 많아',
+      content: '너무 많은디?',
+      companyname: '삼성',
+      date: '2022-07-28 05:23'
+    },
+    {
+      postId: 3,
+      stack: 'JavaScript',
+      title: '이거 할게 너무 많아',
+      content: '너무 많은디?',
+      companyname: '삼성',
+      date: '2022-07-28 05:23'
+    }
+  ],
+  detailPost: {
+    // FIXME: ❌ DUMMY DATA
+    postId: 1,
+    username: 'TEST',
+    title: '혼자서 하니까 너무 싫다.',
+    content: '혼자서해야한다고? 이걸 다?',
+    stack: 'REACT',
+    date: '2022-07-28',
+    companyname: 'SAMSUNG',
+    comments: [
+      {
+        loginId: 'test111',
+        comment: '테스트하는 댓글내용',
+        date: '댓글 작성시간',
+        username: 'test111'
+      },
+      {
+        loginId: 'test222',
+        comment: '테스트하는 댓글내용',
+        date: '댓글 작성시간',
+        username: 'test222'
+      },
+      {
+        loginId: 'test333',
+        comment: '테스트하는 댓글내용',
+        date: '댓글 작성시간',
+        username: 'test333'
+      }
+    ]
+  },
+  isEdit: false // 수정 중인지 check
 };
 
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    add(state, action) {
-      state.posts = [action.payload, ...state.posts];
-    },
-    edit(state, action) {},
-    delete(state, action) {},
     isEdit(state) {
       state.isEdit = true;
     },
@@ -79,11 +155,18 @@ const postsSlice = createSlice({
     }
   },
   extraReducers: {
-    [getAllPosts.fulfilled]: (state, action) => {
+    //FIXME:
+    [getPostsMain.fulfilled]: (state, action) => {
+      state.posts = [...action.payload];
+    },
+    [getCategoryPosts.fulfilled]: (state, action) => {
       state.posts = [...action.payload];
     },
     [getMyPosts.fulfilled]: (state, action) => {
       state.myPosts = [...action.payload];
+    },
+    [getDetailPost.fulfilled]: (state, action) => {
+      state.detailPost = { ...action.payload };
     }
   }
 });

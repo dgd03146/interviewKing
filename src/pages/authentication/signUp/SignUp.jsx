@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUser } from '../../../redux/auth-slice';
 import axios from 'axios';
+import { authApi } from '../../../shared/api';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -70,18 +71,14 @@ const SignUp = () => {
       username: username_ref.current.value
     };
 
-    console.log(user);
-
     try {
-      const response = await axios.post(
-        'http://15.164.221.163:8080/api/signup',
-        user
-      );
+      const response = await authApi.signup(user);
       console.log(response, 'response');
       alert('회원가입이 완료되었습니다.');
       navigate('/login');
     } catch (error) {
       console.log(error.response);
+      alert('회원가입이 실패하였습니다.');
     }
   };
 
