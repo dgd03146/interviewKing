@@ -6,22 +6,18 @@ import { layoutActions } from '../../redux/layout-slice';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { postsActions } from '../../redux/posts-slice';
 import axios from 'axios';
+import { postApi } from '../../shared/api';
 
 const PostAdd = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { state } = useLocation(); // detailPost를 naivgation으로 전달받음
-  const postId = state.postId;
+  // const postId = state.postId;
 
   const [isEdit, setIsEdit] = useState(false);
 
   const [isEmpty, setIsEmpty] = useState(false); // input 비워있으면 등록 버튼 x
-
-  const titleRef = useRef('');
-  const contentRef = useRef('');
-  const stackRef = useRef('');
-  const companynameRef = useRef('');
 
   const [isInputValue, setIsInputValue] = useState({
     title: '',
@@ -72,7 +68,7 @@ const PostAdd = () => {
     let minutes = ('0' + today.getMinutes()).slice(-2);
     let seconds = ('0' + today.getSeconds()).slice(-2);
     let timeString = hours + ':' + minutes + ':' + seconds;
-    const date = dateString + ' ' + timeString;
+    const date = dateString + ' ' + timeString.slice(0, 5);
 
     // server에 데이터 추가
     const post = {
@@ -84,26 +80,11 @@ const PostAdd = () => {
     };
 
     // TODO:게시글 수정할때 등록. postId를 받아와야함.
-    if (isEdit) {
-      try {
-        const response = await axios.put(
-          `http://15.164.221.163:8080/api/${postId}`,
-          post
-        );
-        alert('게시글이 수정되었습니다.'); // FIXME: 모달로 구현?
-        navigate('/main');
-      } catch (error) {
-        console.log(error.response);
-      }
-      return;
-    }
+    // ✅
 
     // 게시글 작성
     try {
-      const response = await axios.post(
-        'http://15.164.221.163:8080/api/post',
-        post
-      );
+      const response = await postApi.postAdd(post);
       alert('게시글이 작성되었습니다.'); // FIXME:모달로 구현?
       navigate('/main');
     } catch (error) {

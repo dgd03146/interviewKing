@@ -27,7 +27,12 @@ const Main = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const posts = useSelector((state) => state.posts.posts);
+  const [posts, setPosts] = useState([]);
+  const getPosts = useSelector((state) => state.posts.posts);
+
+  useEffect(() => {
+    setPosts(getPosts);
+  }, [getPosts]);
 
   useEffect(() => {
     dispatch(layoutActions.isMained()); // main에서 footer 보이게

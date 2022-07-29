@@ -15,6 +15,15 @@ import MyPage from './pages/myPage/MyPage';
 
 function App() {
   const isMain = useSelector((state) => state.layout.isMain);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  const isToken = localStorage.getItem('TOKEN') ? true : false;
+
+  useEffect(() => {
+    // TODO: 새로고침 방지 user정보 요청해서 redux에 user 저장
+    if (isToken && !isLoggedIn) {
+    }
+  });
 
   return (
     <div className="App">

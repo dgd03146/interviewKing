@@ -8,12 +8,20 @@ import { layoutActions } from '../../redux/layout-slice';
 import axios from 'axios';
 import { getDetailPost } from '../../redux/posts-slice';
 import InboxIcon from '@mui/icons-material/Inbox';
+import { postApi } from '../../shared/api.js';
 
 const Post = () => {
   const { postId } = useParams();
 
   const { state } = useLocation(); // from myPage
   const loginId = useSelector((state) => state.auth.user.loginId);
+
+  const [inputComment, setInputComment] = useState();
+  const [targetComments, setTargetComments] = useState();
+  const [commentId, setCommentId] = useState();
+
+  // 수정 버튼을 눌렀을때 input 태그 생성
+  const [isCommentEdit, setIsCommentEdit] = useState(false);
 
   let dispatch = useDispatch();
   let navigate = useNavigate();
@@ -26,6 +34,14 @@ const Post = () => {
     dispatch(layoutActions.notisMained()); // footer를 main page에서만 나타나게 하기 위해서.
   }, []);
 
+  // 아이디와 같은 댓글들 찾기
+  useEffect(() => {
+    if (loginId && comments.length >= 1) {
+      const targetComments = comments.filter((it) => it.loginId == loginId);
+      setTargetComments(targetComments);
+    }
+  }, [comments]);
+
   // FIXME: front에서 targetPost 찾는 로직
   // const [targetPost, setTargetPost] = useState({}); // 어떤 post인지 확인
   // useEffect(() => {
@@ -35,12 +51,11 @@ const Post = () => {
   //   }
   // }, [posts]);
 
+  // post 삭제
   const onDelete = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        const response = await axios.delete(
-          `http://15.164.221.163:8080/api/postId`
-        );
+        const response = await postApi.delete(postId);
         alert('삭제되었습니다.');
       } catch (error) {
         console.log(error.response);
@@ -48,6 +63,82 @@ const Post = () => {
       }
     } else {
       alert('취소합니다.');
+    }
+  };
+
+  const onChange = (e) => {
+    setInputComment(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const onComment = async () => {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+    let day = ('0' + today.getDate()).slice(-2);
+    let dateString = year + '-' + month + '-' + day;
+    let hours = ('0' + today.getHours()).slice(-2);
+    let minutes = ('0' + today.getMinutes()).slice(-2);
+    let seconds = ('0' + today.getSeconds()).slice(-2);
+    let timeString = hours + ':' + minutes + ':' + seconds;
+    const date = dateString + ' ' + timeString.slice(0, 5);
+
+    const comment = {
+      comment: inputComment,
+      date: date
+    };
+
+    // 댓글 수정 등록
+    if (isCommentEdit) {
+      try {
+        const response = await postApi.editComment(commentId, comment);
+        return;
+      } catch (error) {
+        console.log(error.response);
+      }
+      return;
+    }
+
+    // 댓글 등록
+    try {
+      const response = await postApi.addComment(comment);
+      if (response.data) {
+        alert('댓글이 작성되었습니다.');
+      }
+      return;
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  const onEditComment = (it) => {
+    const targetComment = targetComments.find(
+      (el) => el.commentId == it.commentId
+    );
+    console.log(targetComment, 'targetComment');
+    setCommentId(targetComment.commentId);
+
+    setInputComment(targetComment.comment);
+    setIsCommentEdit(true);
+  };
+
+  const onCancelComment = () => {
+    setIsCommentEdit(false);
+  };
+
+  // 댓글 삭제
+  const onDeleteComment = async () => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      try {
+        const response = await postApi.deleteComment(commentId);
+        if (response.data) {
+          alert('댓글이 삭제되었습니다.');
+        }
+        return;
+      } catch (error) {
+        console.log(error.response);
+        alert('댓글 삭제를 실패하였습니다.');
+      }
     }
   };
 
@@ -102,16 +193,40 @@ const Post = () => {
           ) : (
             comments.map((it) => {
               return (
-                <div key={it.loginId} className={styles.comment}>
+                <div key={it.commentId} className={styles.comment}>
                   <div className={styles.commentTop}>
                     <p className={styles.commentNickname}>{it.username}</p>
                     <p className={styles.commentTime}>{it.date}</p>
                   </div>
                   <div>{it.comment}</div>
+                  {isCommentEdit && commentId == it.commentId && (
+                    <div>
+                      <input
+                        className={styles.editComment}
+                        type="text"
+                        value={inputComment || ''}
+                        onChange={onChange}
+                      />
+                    </div>
+                  )}
                   {it.loginId == loginId && (
                     <div className={styles.commentBtnBox}>
-                      <button>수정</button>
-                      <button>삭제</button>
+                      {isCommentEdit && commentId == it.commentId ? (
+                        <button onClick={onCancelComment}>취소</button>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            onEditComment(it);
+                          }}
+                        >
+                          수정
+                        </button>
+                      )}
+                      {isCommentEdit ? (
+                        <button onClick={onComment}>등록</button>
+                      ) : (
+                        <button onClick={onDeleteComment}>삭제</button>
+                      )}
                     </div>
                   )}
                 </div>
@@ -122,14 +237,15 @@ const Post = () => {
         <textarea
           className={styles.commentArea}
           placeholder="댓글을 입력해주세요"
-          name=""
+          name="comment"
           id=""
           cols="30"
           rows="1"
+          onChange={onChange}
         />
         {/* input이 빈칸이 아닐때 등록 버튼 활성화 */}
         <div className={styles.buttonBox}>
-          <button>등록</button>
+          <button onClick={onComment}>등록</button>
         </div>
       </div>
       <button

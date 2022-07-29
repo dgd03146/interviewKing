@@ -33,5 +33,24 @@ export const postApi = {
   myPosts: () => api.get('/api/mypage'),
 
   // 상세 게시글 불러오기
-  detailPost: (postId) => api.get(`/api/detail/${postId}`)
+  detailPost: (postId) => api.get(`/api/detail/${postId}`),
+
+  // 게시글 작성
+  postAdd: (post) => api.post('/api/post', post),
+
+  // 게시글 수정
+  postEdit: (postId, post) => api.put(`/api/${postId}`, post),
+
+  // 게시글 삭제
+  postDelete: (postId) => api.delete(`/api/${postId}`),
+
+  // 댓글 작성
+  addComment: (comment) => api.post('/api/comment', comment),
+
+  // 댓글 수정
+  editComment: (commentId, comment) =>
+    api.put(`/api/comment/${commentId}`, comment),
+
+  // 댓글 삭제
+  deleteComment: (commentId) => api.delete(`/api/comment/${commentId}`)
 };

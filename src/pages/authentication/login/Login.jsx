@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import styles from './Login.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { postUser } from '../../../redux/auth-slice';
+import { authActions, postUser } from '../../../redux/auth-slice';
 
 const Login = () => {
   let navigate = useNavigate();
@@ -19,7 +19,7 @@ const Login = () => {
       pw: pw_ref.current.value
     };
 
-    // FIXME: dispatch(postUser(user));
+    dispatch(postUser(user));
 
     navigate('/main');
   };

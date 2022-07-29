@@ -10,23 +10,36 @@ const initialState = {
   }
 };
 
-export const postUser = createAsyncThunk('user/postUser', async (user) => {
-  try {
-    const response = await authApi.login(user);
-    console.log(response.data, 'response.data');
-    alert('로그인이 완료되었습니다.');
-    return response.data;
-  } catch (error) {
-    console.log(error.response);
+export const postUser = createAsyncThunk(
+  'user/postUser',
+  async (user, thunkAPI) => {
+    try {
+      const response = await authApi.login(user);
+      console.log(response, 'response입니다!');
+      console.log(response.data, 'response.data');
+      if (response.data.loginId) {
+        thunkAPI.dispatch(authActions.login()); // login state true
+        alert('로그인이 완료되었습니다.');
+      }
+      localStorage.setItem('TOKEN', response.data.token); // 토큰 로컬 스토리지에 저장
+
+      return response.data;
+    } catch (error) {
+      console.log(error.response);
+    }
   }
-});
+);
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login(state) {},
-    logOut(state) {},
+    login(state) {
+      state.isLoggedIn = true;
+    },
+    logOut(state) {
+      state.isLoggedIn = false;
+    },
     setUser(state, action) {}
   },
   extraReducers: {
