@@ -6,6 +6,7 @@ import { authApi, postApi } from '../shared/api';
 export const getPostsMain = createAsyncThunk('posts/getPostsMain', async () => {
   try {
     const response = await postApi.postsMain();
+
     return response.data;
   } catch (error) {
     console.log(error.response);
@@ -40,6 +41,7 @@ export const getDetailPost = createAsyncThunk(
   async (postId) => {
     try {
       const response = await postApi.detailPost(postId);
+
       return response.data;
     } catch (error) {
       console.log(error.response);
@@ -48,109 +50,12 @@ export const getDetailPost = createAsyncThunk(
 );
 
 const initialState = {
-  posts: [
-    {
-      postId: 1,
-      stack: 'React',
-      title: 'React의 개념과 장점, 그리고 컴포넌트란 무엇인가요?',
-      content:
-        'React는 UI를 구축을 위한 자바스크립트 프론트엔드 라이브러리 입니다. 주로 Single Page Application를 만들 때 사용됩니다. React의 장점에는 virtual DOM을 사용해서 어플리케이션의 성능을 향상시키고, 클라이언트 사이드 렌더링이 가능합니다. 또한 다른 프레임워크와도 사용이 가능하며, 컴포넌트의 가독성을 높이며 유지보수가 쉽습니다. 여기서 컴포넌트란, 레고 블록과 같이 작은 단위로 만들어서 그것을 조립하는 것처럼 개발하는 방법입니다. 컴포넌트를 사용한다면 캡슐화, 확장성, 결합성, 재사용성과 같은 이점이 있습니다.',
-      likes: 1,
-      companyname: 'samsung',
-      date: '2022-07-25'
-    },
-    {
-      postId: 2,
-      stack: 'React',
-      title: 'React의 개념과 장점, 그리고 컴포넌트란 무엇인가요?',
-      likes: 1,
-      companyname: 'samsung',
-      date: '2022-07-25'
-    },
-    {
-      postId: 3,
-      stack: 'JavaScript',
-      title: 'React의 개념과 장점, 그리고 컴포넌트란 무엇인가요?',
-      likes: 1,
-      companyname: 'samsung',
-      date: '2022-07-25'
-    },
-    {
-      postId: 4,
-      stack: 'HTML',
-      title: 'React의 개념과 장점, 그리고 컴포넌트란 무엇인가요?',
-      likes: 1,
-      companyname: 'samsung',
-      date: '2022-07-25'
-    }
-  ],
-  myPosts: [
-    {
-      postId: 1,
-      stack: 'React',
-      title: '이거 할게 너무 많아',
-      content: '너무 많은디?',
-      companyname: '삼성',
-      date: '2022-07-28 05:23'
-    },
-    {
-      postId: 2,
-      stack: 'Spring',
-      title: '이거 할게 너무 많아',
-      content: '너무 많은디?',
-      companyname: '삼성',
-      date: '2022-07-28 05:23'
-    },
-    {
-      postId: 3,
-      stack: 'JavaScript',
-      title: '이거 할게 너무 많아',
-      content: '너무 많은디?',
-      companyname: '삼성',
-      date: '2022-07-28 05:23'
-    }
-  ],
+  posts: [],
+  myPosts: [],
   detailPost: {
     // FIXME: ❌ DUMMY DATA
-    postId: 1,
-    username: 'TEST',
-    title: 'React의 개념과 장점, 그리고 컴포넌트란 무엇일까?',
-    content:
-      'React는 UI를 구축을 위한 자바스크립트 프론트엔드 라이브러리 입니다. 주로 Single Page Application를 만들 때 사용됩니다. React의 장점에는 virtual DOM을 사용해서 어플리케이션의 성능을 향상시키고, 클라이언트 사이드 렌더링이 가능합니다. 또한 다른 프레임워크와도 사용이 가능하며, 컴포넌트의 가독성을 높이며 유지보수가 쉽습니다. 여기서 컴포넌트란, 레고 블록과 같이 작은 단위로 만들어서 그것을 조립하는 것처럼 개발하는 방법입니다. 컴포넌트를 사용한다면 캡슐화, 확장성, 결합성, 재사용성과 같은 이점이 있습니다',
-    stack: 'REACT',
-    date: '2022-07-28',
-    companyname: 'SAMSUNG',
-    comments: [
-      {
-        commentId: '1',
-        loginId: 'test111',
-        comment: '테스트하는 댓글내용',
-        date: '댓글 작성시간',
-        username: 'test111'
-      },
-      {
-        commentId: '2',
-        loginId: 'test111',
-        comment: '테스트하는 댓글내용',
-        date: '댓글 작성시간',
-        username: 'test222'
-      },
-      {
-        commentId: '3',
-        loginId: 'test333',
-        comment: '테스트하는 댓글내용',
-        date: '댓글 작성시간',
-        username: 'test333'
-      },
-      {
-        commentId: '4',
-        loginId: 'test111',
-        comment: '테스트하는 댓글내용',
-        date: '댓글 작성시간',
-        username: 'test333'
-      }
-    ]
   },
+
   isEdit: false // 수정 중인지 check
 };
 

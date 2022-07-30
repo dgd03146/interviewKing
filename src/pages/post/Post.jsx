@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import styles from './Post.module.css';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
@@ -16,40 +16,38 @@ const Post = () => {
   const { state } = useLocation(); // from myPage
   const loginId = useSelector((state) => state.auth.user.loginId);
 
-  const [inputComment, setInputComment] = useState();
-  const [targetComments, setTargetComments] = useState();
-  const [commentId, setCommentId] = useState();
-
-  // 수정 버튼을 눌렀을때 input 태그 생성
-  const [isCommentEdit, setIsCommentEdit] = useState(false);
-
   let dispatch = useDispatch();
   let navigate = useNavigate();
 
   const detailPost = useSelector((state) => state.posts.detailPost);
-  const comments = detailPost.comments;
+
+  const [inputComment, setInputComment] = useState();
+  const [targetComments, setTargetComments] = useState();
+  const [commentId, setCommentId] = useState();
+
+  const [comments, setComments] = useState([]);
+
+  const commentRef = useRef();
 
   useEffect(() => {
-    // FIXME: ✅ dispatch(getDetailPost(postId)); // detail 페이지
+    dispatch(getDetailPost(postId));
     dispatch(layoutActions.notisMained()); // footer를 main page에서만 나타나게 하기 위해서.
   }, []);
 
-  // 아이디와 같은 댓글들 찾기
   useEffect(() => {
-    if (loginId && comments.length >= 1) {
-      const targetComments = comments.filter((it) => it.loginId == loginId);
+    setComments(detailPost.comments);
+  }, [detailPost]);
+
+  // 수정 버튼을 눌렀을때 input 태그 생성
+  const [isCommentEdit, setIsCommentEdit] = useState(false);
+
+  // FIXME:아이디와 같은 댓글들 찾기
+  useEffect(() => {
+    if (loginId && comments?.length >= 1) {
+      const targetComments = comments?.filter((it) => it.loginId == loginId);
       setTargetComments(targetComments);
     }
   }, [comments]);
-
-  // FIXME: front에서 targetPost 찾는 로직
-  // const [targetPost, setTargetPost] = useState({}); // 어떤 post인지 확인
-  // useEffect(() => {
-  //   if (posts.length >= 1) {
-  //     const post = posts.find((it) => it.postId == postId);
-  //     setTargetPost(post);
-  //   }
-  // }, [posts]);
 
   // post 삭제
   const onDelete = async () => {
@@ -68,10 +66,10 @@ const Post = () => {
 
   const onChange = (e) => {
     setInputComment(e.target.value);
-    console.log(e.target.value);
   };
 
   const onComment = async () => {
+    console.log(postId, 'postId임');
     let today = new Date();
     let year = today.getFullYear();
     let month = ('0' + (today.getMonth() + 1)).slice(-2);
@@ -92,6 +90,8 @@ const Post = () => {
     if (isCommentEdit) {
       try {
         const response = await postApi.editComment(commentId, comment);
+        dispatch(getDetailPost(postId)); // FIXME: 댓글 다시 불러오기위해
+        setIsCommentEdit(false);
         return;
       } catch (error) {
         console.log(error.response);
@@ -101,9 +101,11 @@ const Post = () => {
 
     // 댓글 등록
     try {
-      const response = await postApi.addComment(comment);
+      const response = await postApi.addComment(comment, postId);
       if (response.data) {
         alert('댓글이 작성되었습니다.');
+        commentRef.current.value = '';
+        dispatch(getDetailPost(postId)); // FIXME: 댓글 다시 불러오기위해
       }
       return;
     } catch (error) {
@@ -131,8 +133,10 @@ const Post = () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
         const response = await postApi.deleteComment(commentId);
+        console.log(response);
         if (response.data) {
           alert('댓글이 삭제되었습니다.');
+          dispatch(getDetailPost(postId)); // FIXME: 댓글 다시 불러오기위해
         }
         return;
       } catch (error) {
@@ -164,7 +168,7 @@ const Post = () => {
             </p> */}
             <p>
               <ChatBubbleOutlineIcon />
-              {detailPost.comments.length}
+              {detailPost.comments?.length}
             </p>
           </div>
           {state && (
@@ -185,13 +189,13 @@ const Post = () => {
       {/* comments */}
       <div className={styles.commentBox}>
         <div className={styles.comments}>
-          {comments.length === 0 ? (
+          {comments?.length < 1 ? (
             <div className={styles.noComments}>
               <InboxIcon />
               <p>댓글을 작성해주세요</p>
             </div>
           ) : (
-            comments.map((it) => {
+            comments?.map((it) => {
               return (
                 <div key={it.commentId} className={styles.comment}>
                   <div className={styles.commentTop}>
@@ -241,6 +245,7 @@ const Post = () => {
           id=""
           cols="30"
           rows="1"
+          ref={commentRef}
           onChange={onChange}
         />
         {/* input이 빈칸이 아닐때 등록 버튼 활성화 */}

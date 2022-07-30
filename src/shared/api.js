@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://15.164.221.163:8080',
+  baseURL: 'http://43.200.6.110/',
   headers: {
     'content-type': 'application/json;charset=UTF-8',
     accept: 'application/json,'
@@ -19,7 +19,10 @@ export const authApi = {
   signup: (user) => api.post('/api/signup', user),
 
   // 로그인
-  login: (user) => api.post('/api/login', user)
+  login: (user) => api.post('/api/login', user),
+
+  // 유저 정보 받기
+  getUser: () => api.get('/api/user')
 };
 
 export const postApi = {
@@ -33,19 +36,19 @@ export const postApi = {
   myPosts: () => api.get('/api/mypage'),
 
   // 상세 게시글 불러오기
-  detailPost: (postId) => api.get(`/api/detail/${postId}`),
+  detailPost: (postId) => api.get(`/api/posts/${postId}`),
 
   // 게시글 작성
   postAdd: (post) => api.post('/api/post', post),
 
   // 게시글 수정
-  postEdit: (postId, post) => api.put(`/api/${postId}`, post),
+  postEdit: (postId, post) => api.put(`/api/post/${postId}`, post),
 
   // 게시글 삭제
-  postDelete: (postId) => api.delete(`/api/${postId}`),
+  postDelete: (postId) => api.delete(`/api/post/${postId}`),
 
   // 댓글 작성
-  addComment: (comment) => api.post('/api/comment', comment),
+  addComment: (comment, postId) => api.post(`/api/comment/${postId}`, comment),
 
   // 댓글 수정
   editComment: (commentId, comment) =>

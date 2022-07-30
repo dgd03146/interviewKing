@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Main from './pages/main/Main';
 import Header from './layout/Header';
 import Container from './layout/Container';
@@ -12,18 +12,29 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { layoutActions } from './redux/layout-slice';
 import MyPage from './pages/myPage/MyPage';
+import { getUser } from './redux/auth-slice';
 
 function App() {
   const isMain = useSelector((state) => state.layout.isMain);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
+  const navigate = useNavigate();
   const isToken = localStorage.getItem('TOKEN') ? true : false;
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    // TODO: 새로고침 방지 user정보 요청해서 redux에 user 저장
-    if (isToken && !isLoggedIn) {
+    if (isLoggedIn) {
+      navigate('/main');
     }
-  });
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    // 토큰이 있고 로그인 상태가 사라졌을때 => 새로고침했을때
+    if (isToken && !isLoggedIn) {
+      dispatch(getUser()); // user정보 요청해서 redux에 user 저장
+    }
+  }, []);
 
   return (
     <div className="App">

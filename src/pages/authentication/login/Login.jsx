@@ -20,8 +20,7 @@ const Login = () => {
     };
 
     dispatch(postUser(user));
-
-    navigate('/main');
+    // navigate('/main');
   };
 
   return (

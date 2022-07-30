@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './Header.module.css';
 import { authActions } from '../redux/auth-slice';
+import { getUser } from '../redux/auth-slice';
 
 const Header = () => {
   const username = useSelector((state) => state.auth.user.username);
 
   const dispatch = useDispatch();
+
   const onLogOut = () => {
     dispatch(authActions.logOut()); // isLoggedIn false
     localStorage.removeItem('TOKEN'); // locaStroage에서 삭제

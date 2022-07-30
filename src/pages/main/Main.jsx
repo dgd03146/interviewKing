@@ -9,6 +9,7 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+import { getUser } from '../../redux/auth-slice';
 import { getCategoryPosts, getPostsMain } from '../../redux/posts-slice';
 
 const env = process.env;
@@ -27,17 +28,26 @@ const Main = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const isToken = localStorage.getItem('TOKEN') ? true : false;
+
   const [posts, setPosts] = useState([]);
   const getPosts = useSelector((state) => state.posts.posts);
+
+  // FIXME:
+  useEffect(() => {
+    if (isToken) {
+      dispatch(getUser()); // 유저 정보 받아오기
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch(layoutActions.isMained()); // main에서 footer 보이게
+    dispatch(getPostsMain()); // main에 posts 받아온다.
+  }, []);
 
   useEffect(() => {
     setPosts(getPosts);
   }, [getPosts]);
-
-  useEffect(() => {
-    dispatch(layoutActions.isMained()); // main에서 footer 보이게
-    // FIXME: ✅ dispatch(getPostsMain()); // main에 posts 받아온다.
-  }, []);
 
   // FIXME: 카테고리 요청할때마다 API 요청을 해서 받아온다? useEffect로 처리해야하나?
   const onGetPosts = (stack) => {
@@ -79,7 +89,7 @@ const Main = () => {
                 key={index}
                 className={styles.list}
                 onClick={() => {
-                  navigate('/post/' + it.postId); // 상세 보기 page
+                  navigate('/post/' + it.id); // 상세 보기 page
                 }}
               >
                 <div className={styles.leftBox}>
