@@ -13,7 +13,7 @@ const PostAdd = () => {
   const dispatch = useDispatch();
 
   const { state } = useLocation(); // detailPost를 naivgation으로 전달받음
-  // const postId = state.postId;
+  const postId = state?.postId;
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -80,7 +80,18 @@ const PostAdd = () => {
     };
 
     // TODO:게시글 수정할때 등록. postId를 받아와야함.
-    // ✅
+
+    if (isEdit) {
+      try {
+        const response = await postApi.postEdit(postId, post);
+        alert('게시글이 수정되었습니다.'); // FIXME:모달로 구현?
+        navigate('/main');
+        return;
+      } catch (error) {
+        console.log(error.response);
+      }
+      return;
+    }
 
     // 게시글 작성
     try {

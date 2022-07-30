@@ -3,7 +3,7 @@ import styles from './MyPage.module.css';
 import { lists } from '../../data';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { postsActions } from '../../redux/posts-slice';
+import { getMyPosts, postsActions } from '../../redux/posts-slice';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 
 const MyPage = () => {
@@ -13,6 +13,10 @@ const MyPage = () => {
   const isEdit = useSelector((state) => state.posts.isEdit);
   const myPosts = useSelector((state) => state.posts.myPosts);
   const username = useSelector((state) => state.auth.user.username);
+
+  useEffect(() => {
+    dispatch(getMyPosts());
+  }, []);
 
   useEffect(() => {
     dispatch(postsActions.isEdit()); // 수정 중으로 변경

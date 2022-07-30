@@ -51,10 +51,12 @@ const Post = () => {
 
   // post 삭제
   const onDelete = async () => {
+    console.log(postId);
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        const response = await postApi.delete(postId);
+        const response = await postApi.postDelete(postId);
         alert('삭제되었습니다.');
+        navigate('/main');
       } catch (error) {
         console.log(error.response);
         alert('삭제를 실패하였습니다.');
@@ -117,7 +119,7 @@ const Post = () => {
     const targetComment = targetComments.find(
       (el) => el.commentId == it.commentId
     );
-    console.log(targetComment, 'targetComment');
+
     setCommentId(targetComment.commentId);
 
     setInputComment(targetComment.comment);
@@ -129,11 +131,17 @@ const Post = () => {
   };
 
   // 댓글 삭제
-  const onDeleteComment = async () => {
+  const onDeleteComment = async (it) => {
+    const targetComment = targetComments.find(
+      (el) => el.commentId == it.commentId
+    );
+
+    setCommentId(targetComment.commentId);
+
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        const response = await postApi.deleteComment(commentId);
-        console.log(response);
+        const response = await postApi.deleteComment(targetComment.commentId);
+
         if (response.data) {
           alert('댓글이 삭제되었습니다.');
           dispatch(getDetailPost(postId)); // FIXME: 댓글 다시 불러오기위해
@@ -171,7 +179,7 @@ const Post = () => {
               {detailPost.comments?.length}
             </p>
           </div>
-          {state && (
+          {(state || detailPost.loginId == loginId) && (
             <div className={styles.btnBox}>
               <button
                 className={styles.editBtn}
@@ -229,7 +237,13 @@ const Post = () => {
                       {isCommentEdit ? (
                         <button onClick={onComment}>등록</button>
                       ) : (
-                        <button onClick={onDeleteComment}>삭제</button>
+                        <button
+                          onClick={() => {
+                            onDeleteComment(it);
+                          }}
+                        >
+                          삭제
+                        </button>
                       )}
                     </div>
                   )}
