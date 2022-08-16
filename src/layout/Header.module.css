@@ -1,0 +1,176 @@
+@import url('https://webfontworld.github.io/goodchoice/Jalnan.css');
+
+.header {
+  width: 100%;
+  position: fixed;
+  /* background-color: #fff; */
+  /* background-color: yellow; */
+  -webkit-box-shadow: 0 1px 0 0 rgb(0 0 0 / 10%);
+  box-shadow: 0 1px 0 0 rgb(0 0 0 / 10%);
+  z-index: 1;
+  height: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+}
+
+.container {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.columnContainer {
+  display: flex;
+}
+
+.logo {
+  font-family: 'Jalnan';
+  /* width: 25%; */
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.logo p span {
+  color: brown;
+}
+
+.category {
+  /* width: 50%; */
+  display: flex;
+  /* justify-content: center; */
+}
+
+.category li {
+  position: relative;
+
+  margin: 0 1rem;
+}
+
+.category li:after {
+  content: '';
+  position: absolute;
+  background-color: brown;
+  height: 3px;
+  width: 0%;
+  left: 0;
+  bottom: -10px;
+  transition: 0.3s;
+}
+
+.category li:hover:after {
+  width: 100%;
+}
+
+.userContainer {
+  /* width: 25%; */
+  display: flex;
+  align-items: center;
+  /* justify-content: flex-end; */
+}
+
+.userContainer div {
+  position: relative;
+  margin-left: 2rem;
+}
+
+.userContainer div:after {
+  content: '';
+  position: absolute;
+  background-color: brown;
+  height: 3px;
+  width: 0%;
+  left: 0;
+  bottom: 3px;
+  transition: 0.3s;
+}
+
+.userContainer div:hover:after {
+  width: 100%;
+}
+
+.username {
+  color: brown;
+}
+.username span {
+  color: black;
+}
+
+.logOut {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-radius: 4px;
+  transition: 500ms ease-in;
+  height: 100%;
+}
+
+/* .logOut:hover {
+  background-color: brown;
+}
+.logOut:hover a {
+  color: white;
+} */
+
+@media screen and (max-width: 1000px) {
+  .logo li {
+    margin: 0 0.5rem;
+  }
+  .category li {
+    margin: 0 0.5rem;
+  }
+  .userContainer div {
+    margin-left: 1rem;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .category li {
+    margin: 0 0.2rem;
+  }
+  .userContainer div {
+    margin-left: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .logo {
+    font-size: 1.2rem;
+
+    margin-right: 1rem;
+  }
+
+  .container {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .header {
+    height: 100px;
+    align-items: center;
+  }
+  .logo p {
+    text-align: left;
+  }
+  .container {
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+  .columnContainer {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .username {
+    display: none;
+  }
+}
